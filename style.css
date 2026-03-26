@@ -1,0 +1,80 @@
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    right: -100%;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(212, 165, 116, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(212, 165, 116, 0.8);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+/* Smooth transitions for all interactive elements */
+button, a {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Remove outline on focus for better design */
+*:focus {
+  outline: none;
+}
+
+/* Smooth scroll behavior */
+body {
+  scroll-behavior: smooth;
+  background-color: #FFFBF0;
+  color: #1F1F1F;
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure proper display of extra row */
+#extraRow.hidden {
+  display: none !important;
+}
+
+#extraRow:not(.hidden) {
+  display: grid !important;
+}
+

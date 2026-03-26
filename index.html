@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitsy the Wolfdog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#D4A574',
+              'golden': '#E8C291',
+              'warm-dark': '#2C1F0A',
+              'earth-brown': '#8B6F47',
+              'sage': '#5A6B5B',
+              'cream': '#FFFBF0',
+              'bg-light': '#FFFBF0',
+              'text-dark': '#1F1F1F',
+              'text-soft': '#5A5A5A',
+            },
+            fontFamily: {
+              'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            },
+            letterSpacing: {
+              'tighter': '-0.05em',
+              'tight': '-0.025em',
+              'normal': '0em',
+              'wide': '0.025em',
+              'wider': '0.05em',
+              'widest': '0.1em',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'shine': 'shine 2s infinite',
+              'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(50px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              shine: {
+                '0%': { left: '-100%' },
+                '100%': { right: '-100%' },
+              },
+              pulseGlow: {
+                '0%, 100%': { boxShadow: '0 0 10px rgba(212, 165, 116, 0.4)' },
+                '50%': { boxShadow: '0 0 30px rgba(212, 165, 116, 0.8)' },
+              },
+            },
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-cream min-h-screen font-sans text-text-dark">
+  <!-- Preloader -->
+  <div id="preloader" class="fixed inset-0 bg-gradient-to-b from-warm-dark via-black to-warm-dark z-[99999] flex items-center justify-center animated-preloader" style="pointer-events: all;">
+    <div class="text-center">
+      <div class="mb-8 inline-block">
+        <div class="text-6xl mb-4 animate-bounce">🐺</div>
+        <div class="flex gap-2 justify-center mb-6">
+          <div class="w-2 h-2 bg-golden rounded-full animate-pulse" style="animation-delay: 0s;"></div>
+          <div class="w-2 h-2 bg-golden rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+          <div class="w-2 h-2 bg-golden rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+        </div>
+      </div>
+      <p class="text-golden text-lg font-bold tracking-widest mb-8">LOADING BITSY</p>
+      <div class="w-64 h-1 bg-warm-dark rounded-full overflow-hidden">
+        <div class="h-full bg-gradient-to-r from-transparent via-golden to-transparent" style="animation: shimmer 1.5s infinite;"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.style.transition = 'opacity 0.6s ease-out';
+        preloader.style.opacity = '0';
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 600);
+      }, 1500);
+    });
+  </script>
+  <style>
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { right: -100%; }
+    }
+  </style>
+
+  <!-- Navigation Menu -->
+  <nav class="fixed top-0 right-0 z-50 pt-6 pr-6">
+    <button id="menu-toggle" class="p-3 bg-primary rounded-full shadow-md hover:shadow-lg hover:opacity-90 transition-all text-white" aria-label="Toggle menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+    <div id="menu" class="hidden absolute top-full right-0 mt-2 bg-white border border-black/10 rounded-xl shadow-md p-6 w-52">
+      <a href="#about" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">About</a>
+      <a href="#narrative" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">Narrative</a>
+      <a href="#community" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">Community</a>
+      <a href="http://localhost:3000" target="_blank" class="w-full block mt-4 px-4 py-3 bg-gradient-to-r from-golden to-primary border border-primary rounded-lg hover:shadow-lg transition-all font-bold text-text-dark text-sm text-center">✨ PFP Generator</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative w-full min-h-screen flex flex-col items-center justify-center pt-16 sm:pt-20 pb-16 sm:pb-20 overflow-hidden" style="background-image: url('./images/Bitsy1.jpeg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <!-- Simple dark overlay -->
+    <div class="absolute inset-0 bg-black/50"></div>
+    
+    <div class="relative max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 z-10 text-center">
+      <!-- Logo/Brand Badge -->
+      <div class="animate-slide-up mb-8">
+        <div class="inline-flex items-center justify-center gap-3 px-4 sm:px-6 py-2 sm:py-3 bg-primary border border-golden rounded-full">
+          <span class="text-xl sm:text-2xl">🐺</span>
+          <span class="text-xs sm:text-sm font-bold tracking-widest uppercase text-black">Bitsy Ecosystem</span>
+        </div>
+      </div>
+
+      <!-- Main Heading -->
+      <div class="animate-slide-up mb-6" style="animation-delay: 0.2s;">
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-4 leading-tight tracking-tight drop-shadow-lg" style="text-shadow: 0 4px 20px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.6);">
+          Bitsy the Wolfdog
+        </h1>
+      </div>
+
+      <!-- Subheading -->
+      <div class="animate-slide-up mb-8" style="animation-delay: 0.4s;">
+        <p class="text-base sm:text-lg lg:text-xl text-white max-w-3xl mx-auto leading-relaxed font-medium" style="text-shadow: 0 2px 10px rgba(0,0,0,0.7);">
+          The most iconic memecoin roaming the golden hour. A community-driven movement powered by nature, beauty, and unstoppable momentum.
+        </p>
+      </div>
+
+      <!-- Stats/Badges -->
+      <div class="animate-slide-up grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-12 max-w-2xl mx-auto" style="animation-delay: 0.5s;">
+        <div class="bg-primary border border-golden rounded-lg p-3 sm:p-4 hover:bg-golden transition-all">
+          <div class="text-lg sm:text-2xl font-bold text-black">$Bitsy</div>
+          <div class="text-xs text-black/80 uppercase tracking-wide">Token</div>
+        </div>
+        <div class="bg-primary border border-golden rounded-lg p-3 sm:p-4 hover:bg-golden transition-all">
+          <div class="text-lg sm:text-2xl font-bold text-black">🌍</div>
+          <div class="text-xs text-black/80 uppercase tracking-wide">Community</div>
+        </div>
+        <div class="bg-primary border border-golden rounded-lg p-3 sm:p-4 hover:bg-golden transition-all col-span-2 lg:col-span-1">
+          <div class="text-lg sm:text-2xl font-bold text-black">🐺</div>
+          <div class="text-xs text-black/80 uppercase tracking-wide">Powered</div>
+        </div>
+      </div>
+
+      <!-- Primary CTA Buttons -->
+      <div class="animate-slide-up flex flex-col sm:flex-row gap-4 justify-center mb-10 flex-wrap" style="animation-delay: 0.6s;">
+        <a href="https://pump.fun/coin/AKZrcatnqdw4D7nw8xrQnhVhqysN1bGUFBddrjifpump" class="relative px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-primary via-golden to-primary text-black font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 text-base sm:text-lg overflow-hidden group">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 animate-shine"></div>
+          <span class="relative">💰 Buy $Bitsy Now</span>
+        </a>
+        <a href="#about" class="relative px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-golden via-primary to-golden text-black font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 text-base sm:text-lg overflow-hidden group">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 animate-shine"></div>
+          <span class="relative">Explore More</span>
+        </a>
+      </div>
+
+      <!-- Social Links & Secondary CTAs -->
+      <div class="animate-slide-up flex flex-wrap justify-center gap-2 sm:gap-3 pt-6 sm:pt-8 border-t border-golden" style="animation-delay: 0.8s;">
+        <a href="https://x.com/i/communities/2036984724229611708" target="_blank" class="relative px-4 sm:px-6 py-2 bg-gradient-to-b from-primary to-earth-brown border border-golden rounded-full text-black hover:shadow-lg transition-all text-xs sm:text-sm font-medium overflow-hidden group">
+          <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20"></div>
+          <span class="relative">𝕏 Twitter</span>
+        </a>
+        <a href="https://pump.fun/coin/AKZrcatnqdw4D7nw8xrQnhVhqysN1bGUFBddrjifpump" target="_blank" class="relative px-4 sm:px-6 py-2 bg-gradient-to-b from-primary to-earth-brown border border-golden rounded-full text-black hover:shadow-lg transition-all text-xs sm:text-sm font-medium overflow-hidden group">
+          <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20"></div>
+          <span class="relative">📊 Charts</span>
+        </a>
+        <a href="#community" class="relative px-4 sm:px-6 py-2 bg-gradient-to-b from-primary to-earth-brown border border-golden rounded-full text-black hover:shadow-lg transition-all text-xs sm:text-sm font-medium overflow-hidden group">
+          <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20"></div>
+          <span class="relative">👥 Community</span>
+        </a>
+        <a href="#narrative" class="relative px-4 sm:px-6 py-2 bg-gradient-to-b from-primary to-earth-brown border border-golden rounded-full text-black hover:shadow-lg transition-all text-xs sm:text-sm font-medium overflow-hidden group">
+          <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20"></div>
+          <span class="relative">📖 Story</span>
+        </a>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="animate-fade-in absolute bottom-10 left-1/2 transform -translate-x-1/2" style="animation-delay: 1.2s;">
+        <div class="flex flex-col items-center gap-2">
+          <span class="text-golden text-xs uppercase tracking-widest font-bold">Scroll to explore</span>
+          <svg class="w-5 h-5 text-golden animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Bitsy Section -->
+  <section class="w-full bg-cream px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-bold text-center text-text-dark mb-16 animate-slide-up tracking-wide">Why Bitsy?</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Image -->
+        <div class="order-last lg:order-first animate-fade-in" style="animation-delay: 0.1s;">
+          <img src="./images/Bitsy2.png" alt="Bitsy the Wolfdog" class="w-full h-auto rounded-xl shadow-md object-cover">
+        </div>
+
+        <!-- Content -->
+        <div class="animate-fade-in" style="animation-delay: 0.2s;">
+          <h2 class="text-4xl sm:text-5xl font-bold text-text-dark mb-6 tracking-wide">Why Is Bitsy Everywhere?</h2>
+          <p class="text-lg text-text-soft mb-8 leading-relaxed font-medium">
+            A community united by nature's serenity and cinematic beauty. Authentic. Calm. Powerful.
+          </p>
+          <div class="space-y-4">
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0 text-sm">✓</div>
+              <div>
+                <h3 class="font-bold text-text-dark mb-1">Connected Community</h3>
+                <p class="text-text-soft text-sm">People who value authenticity and natural beauty</p>
+              </div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0 text-sm">✓</div>
+              <div>
+                <h3 class="font-bold text-text-dark mb-1">Cinematic Energy</h3>
+                <p class="text-text-soft text-sm">Premium, calm, and visually inspiring</p>
+              </div>
+            </div>
+            <div class="flex gap-4 items-start">
+              <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold flex-shrink-0 text-sm">✓</div>
+              <div>
+                <h3 class="font-bold text-text-dark mb-1">Community-Driven</h3>
+                <p class="text-text-soft text-sm">Powered by people who believe in nature</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Token Stats Section -->
+  <section class="w-full bg-cream px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32">
+    <div class="max-w-7xl mx-auto">
+        <!-- Left Container - Token Stats -->
+        <div class="space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-bold text-center text-text-dark mb-16 animate-slide-up tracking-wide">Token Stats</h2>
+        <p class="text-center text-text-soft mb-12 text-sm sm:text-base">Real-time data from DexScreener</p>
+          
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+            <!-- Price -->
+          <div class="p-6 rounded-xl text-center bg-white border border-black/10 shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.1s;">
+              <h3 class="text-xs font-semibold text-text-soft tracking-widest mb-2 uppercase">Price</h3>
+              <p id="price" class="text-2xl sm:text-3xl font-bold text-text-dark">Loading...</p>
+            </div>
+
+            <!-- Liquidity -->
+            <div class="p-6 rounded-xl text-center bg-white border border-black/10 shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.2s;">
+              <h3 class="text-xs font-semibold text-text-soft tracking-widest mb-2 uppercase">Liquidity</h3>
+              <p id="liquidity" class="text-2xl sm:text-3xl font-bold text-text-dark">Loading...</p>
+            </div>
+
+            <!-- Market Cap -->
+            <div class="p-6 rounded-xl text-center bg-white border border-black/10 shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.3s;">
+              <h3 class="text-xs font-semibold text-text-soft tracking-widest mb-2 uppercase">Market Cap</h3>
+              <p id="mc" class="text-2xl sm:text-3xl font-bold text-text-dark">Loading...</p>
+            </div>
+
+            <!-- 24H Volume -->
+            <div class="p-6 rounded-xl text-center bg-white border border-black/10 shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.4s;">
+              <h3 class="text-xs font-semibold text-text-soft tracking-widest mb-2 uppercase">24H Volume</h3>
+              <p id="vol" class="text-2xl sm:text-3xl font-bold text-text-dark">Loading...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <div id="about" class="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 bg-cream">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <!-- Right Container - About -->
+        <div class="p-6 sm:p-8 bg-white border border-black/10 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.2s;">
+          <h3 class="text-2xl sm:text-3xl font-bold text-text-dark mb-4 tracking-wide">About</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">This token is community-driven. People support it, share it, and help it grow. It uses authentic storytelling and genuine community engagement to create lasting impact. The more people connect with it, the stronger it becomes.</p>
+        </div>
+
+        <!-- Left Container - Narrative -->
+        <div id="narrative" class="p-6 sm:p-8 bg-white border border-black/10 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.4s;">
+          <h3 class="text-2xl sm:text-3xl font-bold text-text-dark mb-4 tracking-wide">Narrative</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">Bitsy is inspired by nature's quiet strength—a golden hour field and a loyal dog. This isn't about hype; it's about beauty, authenticity, and a community that values peace and premium experiences.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery Section -->
+  <section class="w-full px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 bg-cream">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl font-bold text-center text-text-dark mb-16 animate-slide-up tracking-wide">📸 Gallery</h2>
+
+      <!-- Top Row (3 items) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0s;">
+          <img src="./images/Bitsy1.jpeg" alt="Bitsy 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.15s;">
+          <img src="./images/Bitsy2.png" alt="Bitsy 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.3s;">
+          <img src="./images/Bitsy3.jpeg" alt="Bitsy 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+      </div>
+
+      <!-- Bottom Row (2 items) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.45s;">
+          <img src="./images/Bitsy4.jpeg" alt="Bitsy 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.6s;">
+          <img src="./images/Bitsy5.jpeg" alt="Bitsy 5" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+      </div>
+
+      <!-- Extra Row (hidden initially) -->
+      <div class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6" id="extraRow">
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.75s;">
+          <img src="./images/Bitsy6.jpeg" alt="Bitsy 6" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 0.9s;">
+          <img src="./images/Bitsy7.jpeg" alt="Bitsy 7" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 1.05s;">
+          <img src="./images/Bitsy8.jpeg" alt="Bitsy 8" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 1.2s;">
+          <img src="./images/Bitsy9.jpeg" alt="Bitsy 9" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+        <div class="group relative h-40 sm:h-48 overflow-hidden rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up" style="animation-delay: 1.35s;">
+          <img src="./images/Bitsy10.jpeg" alt="Bitsy 10" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </div>
+      </div>
+
+      <!-- See More Button -->
+      <div class="text-center">
+        <button id="seeMoreBtn" class="px-10 py-4 bg-primary text-black font-bold rounded-full shadow-md hover:shadow-lg hover:brightness-90 transition-all duration-300 text-sm sm:text-base">🔍 See More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Buy Section -->
+  <section class="w-full bg-cream px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl sm:text-5xl font-bold text-center text-text-dark mb-16 animate-slide-up tracking-wide">💳 How To Buy Bitsy</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Step 1 -->
+        <div class="animate-slide-up bg-white border border-black/10 rounded-xl p-8 text-center shadow-md hover:shadow-lg transition-all" style="animation-delay: 0.1s;">
+          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-6 text-3xl font-bold">1</div>
+          <h3 class="text-xl font-bold text-text-dark mb-3 tracking-wide">Get A Wallet</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">Download Phantom or your favorite Solana wallet</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="animate-slide-up bg-white border border-black/10 rounded-xl p-8 text-center shadow-md hover:shadow-lg transition-all" style="animation-delay: 0.2s;">
+          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-6 text-3xl font-bold">2</div>
+          <h3 class="text-xl font-bold text-text-dark mb-3 tracking-wide">Get SOL</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">Buy SOL from any exchange and send to your wallet</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="animate-slide-up bg-white border border-black/10 rounded-xl p-8 text-center shadow-md hover:shadow-lg transition-all" style="animation-delay: 0.3s;">
+          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-6 text-3xl font-bold">3</div>
+          <h3 class="text-xl font-bold text-text-dark mb-3 tracking-wide">Swap</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">Go to Pump.fun and paste the $Bitsy address</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="animate-slide-up bg-white border border-black/10 rounded-xl p-8 text-center shadow-md hover:shadow-lg transition-all" style="animation-delay: 0.4s;">
+          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-6 text-3xl font-bold">🎉</div>
+          <h3 class="text-xl font-bold text-text-dark mb-3 tracking-wide">You Own Bitsy!</h3>
+          <p class="text-text-dark text-sm sm:text-base leading-relaxed font-medium">Welcome to the $Bitsy community!</p>
+        </div>
+      </div>
+      
+      <!-- Call to Action -->
+      <div class="mt-16 text-center">
+        <div class="inline-block">
+          <a href="https://pump.fun/coin/Fu6Vi2K8P9ih9k8dSCEp6kpMYwvbzbBHBNApN4jipump" class="inline-flex items-center gap-3 px-12 py-5 bg-primary text-black font-bold rounded-full shadow-md hover:brightness-90 transition-all duration-300">
+            <span>Buy Now</span>
+            <span class="text-2xl">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Section -->
+  <section id="community" class="w-full px-4 sm:px-6 lg:px-8 py-24 sm:py-28 lg:py-32 bg-cream">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-4xl sm:text-5xl font-bold text-center text-text-dark mb-16 animate-slide-up tracking-wide">👥 Join The Community</h2>
+      <div class="flex justify-center">
+        <!-- X Community -->
+        <div class="animate-slide-up bg-white border border-black/10 rounded-xl p-8 sm:p-10 text-center shadow-md hover:shadow-lg transition-all w-full max-w-md" style="animation-delay: 0.2s;">
+          <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center mx-auto mb-6 text-2xl">𝕏</div>
+          <h3 class="text-2xl sm:text-3xl font-bold text-text-dark mb-4 tracking-wide">X Community</h3>
+          <p class="text-text-dark mb-6">Join our active X community for updates and discussions</p>
+          <a href="https://x.com/i/communities/2036984724229611708" class="inline-block px-10 py-4 bg-primary text-black font-bold rounded-full hover:brightness-90 transition-all">🔗 Join Us</a>
+        </div>
+       
+      </div>
+    </div>
+  </section>
+
+  <!-- Contract Address Section -->
+  <section class="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 flex justify-center bg-cream">
+    <div class="w-full max-w-2xl">
+      <div class="p-6 sm:p-8 bg-white border border-black/10 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 animate-slide-up">
+        <!-- Header -->
+        <div class="text-center mb-6">
+          <span class="text-xs font-semibold text-text-soft tracking-widest uppercase">🔒 Contract Address</span>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-4">
+          <!-- Address Box -->
+          <div class="p-4 border border-black/10 rounded-lg bg-cream text-center">
+            <p id="contractAddress" class="text-sm sm:text-base font-mono text-text-dark break-all">
+             AKZrcatnqdw4D7nw8xrQnhVhqysN1bGUFBddrjifpump
+            </p>
+          </div>
+
+          <!-- Copy Button -->
+          <button id="copyBtn" class="w-full py-4 bg-primary text-black font-bold rounded-lg hover:brightness-90 transition-all duration-300 text-sm sm:text-base">
+            📋 COPY ✓
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full bg-cream px-4 sm:px-6 lg:px-8 py-16 sm:py-20 mt-10 border-t border-black/10">
+    <div class="max-w-7xl mx-auto text-center">
+      <h3 class="text-3xl sm:text-4xl font-bold mb-4 animate-slide-up text-text-dark tracking-wide">Bitsy the Wolfdog</h3>
+      <p class="text-text-soft mb-8 text-sm sm:text-base">A cinematic sanctuary for nature lovers • Powered by community 💚</p>
+      <div class="flex justify-center gap-8 mb-10 flex-wrap">
+        <a href="https://x.com/i/communities/2033619124145049854" target="_blank" class="px-6 py-3 bg-primary border border-primary text-black font-bold rounded-full hover:shadow-lg hover:brightness-90 transition-all">𝕏 X</a>
+        <a href="https://pump.fun/coin/AKZrcatnqdw4D7nw8xrQnhVhqysN1bGUFBddrjifpump" target="_blank" class="px-6 py-3 bg-primary border border-primary text-black font-bold rounded-full hover:shadow-lg hover:brightness-90 transition-all">💰 Buy</a>
+        <a href="#" onclick="alert('PFP Generator: Run it locally! See setup instructions.'); return false;" class="px-6 py-3 bg-gradient-to-r from-golden to-primary border border-golden text-black font-bold rounded-full hover:shadow-lg hover:shadow-golden/50 transition-all">✨ PFP Generator</a>
+      </div>
+      <p class="text-xs text-text-soft/60">© 2026 $Bitsy. All rights reserved. • Community Driven • Made with 💖</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Menu toggle functionality
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    
+    if (menuToggle && menu) {
+      menuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('hidden');
+      });
+      
+      // Close menu when a link is clicked
+      const menuLinks = menu.querySelectorAll('a');
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.add('hidden');
+        });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.add('hidden');
+        }
+      });
+    }
+    
+    // PFP Generator Guide
+    function showPFPGuide() {
+      const guide = `🐺 BITSY PFP GENERATOR SETUP GUIDE
+
+✨ Step 1: Install Node.js
+- Download from: https://nodejs.org/
+- Choose LTS version
+- Install with default settings
+- Restart your terminal/IDE
+
+🔧 Step 2: Install Dependencies
+Open PowerShell/Terminal and run:
+  cd c:\\Users\\USER\\BitsyPFP
+  npm install
+
+🚀 Step 3: Run Locally
+  npm run dev
+
+Then open: http://localhost:3000
+
+📦 Step 4: Deploy to GitHub
+
+A) Create a GitHub repository
+B) Initialize git in BitsyPFP folder:
+  git init
+  git add .
+  git commit -m "Initial commit: Bitsy PFP Generator"
+  git remote add origin https://github.com/YOUR_USERNAME/BitsyPFP
+  git branch -M main
+  git push -u origin main
+
+🌍 Step 5: Deploy via Vercel
+A) Go to https://vercel.com
+B) Click "New Project"
+C) Select your GitHub repository
+D) Set Environment Variables:
+   OPENAI_API_KEY = (your API key)
+E) Click Deploy!
+
+Your PFP Generator will be live on a Vercel URL! 🎉`;
+      alert(guide);
+    }
+  </script>
+</body>
+</html>

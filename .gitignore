@@ -1,0 +1,10 @@
+cd ~/sad-bunny-cry
+cat > .gitignore << 'EOF'
+.env
+backend/.env
+backend/venv/
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+EOF
