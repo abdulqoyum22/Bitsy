@@ -211,14 +211,10 @@ A viral-quality, emotional, cinematic profile picture that feels like a movie st
             "cached": False
         })
 
-    import traceback
-
-except Exception as e:
-    print("==== FULL ERROR START ====")
-    traceback.print_exc()
-    print("==== FULL ERROR END ====")
+    except Exception as e:
+    print("ERROR:", e)
     return jsonify({"error": str(e)}), 500
-
+    
 @app.route("/stats")
 def stats():
     return jsonify({
