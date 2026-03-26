@@ -62,6 +62,63 @@
     </script>
 </head>
 <body class="bg-cream min-h-screen font-sans text-text-dark">
+    
+    <div id="pfpModal" class="fixed inset-0 z-[99999] translate-x-full transition-transform duration-300 overflow-y-auto" style="background:rgba(0,0,0,0.95);">
+  <div class="relative max-w-2xl mx-auto mt-10 mb-10 p-8 rounded-xl bg-white shadow-2xl">
+    
+    <button onclick="document.getElementById('pfpModal').classList.add('translate-x-full')" class="absolute top-4 right-4 px-4 py-2 bg-primary text-black font-bold rounded-lg hover:brightness-90 transition">Close</button>
+
+    <h3 class="text-3xl font-black mb-8 text-text-dark">✨ PFP Generator</h3>
+
+    <div class="mb-6">
+      <label class="text-xs font-bold tracking-widest uppercase block mb-3 text-text-soft">01 — Upload Your Photo</label>
+      <div onclick="document.getElementById('pfpFileInput').click()" class="border-2 border-dashed border-primary rounded-xl p-8 text-center cursor-pointer hover:bg-cream transition">
+        <div id="uploadPlaceholder">
+          <p class="text-4xl mb-2">⬆</p>
+          <p class="text-sm text-text-soft">Click to upload</p>
+        </div>
+        <img id="uploadPreview" class="hidden w-full rounded-lg object-contain max-h-64" />
+      </div>
+      <input id="pfpFileInput" type="file" accept="image/*" class="hidden" onchange="handlePFPUpload(event)" />
+    </div>
+
+    <div class="mb-6">
+      <label class="text-xs font-bold tracking-widest uppercase block mb-3 text-text-soft">02 — Pick A Style</label>
+      <div class="grid grid-cols-4 gap-3">
+        <button onclick="selectStyle('anime',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-primary bg-cream text-text-dark">⛩️<br>Anime</button>
+        <button onclick="selectStyle('cartoon',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">🎨<br>Cartoon</button>
+        <button onclick="selectStyle('fantasy',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">🧙<br>Fantasy</button>
+        <button onclick="selectStyle('cyberpunk',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">🤖<br>Cyberpunk</button>
+        <button onclick="selectStyle('pixel',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">👾<br>Pixel</button>
+        <button onclick="selectStyle('oilpaint',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">🖼️<br>Oil Paint</button>
+        <button onclick="selectStyle('sketch',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">✏️<br>Sketch</button>
+        <button onclick="selectStyle('custom',this)" class="style-btn py-3 px-2 rounded-lg text-xs font-bold uppercase border border-black/10 text-text-soft">✨<br>Custom</button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label class="text-xs font-bold tracking-widest uppercase block mb-3 text-text-soft">03 — Extra Details <span class="font-normal">(optional)</span></label>
+      <textarea id="pfpCustomPrompt" placeholder="e.g. glowing eyes, golden field, cinematic lighting..." class="w-full rounded-lg p-3 text-sm outline-none resize-none h-20 border border-black/10 bg-cream"></textarea>
+    </div>
+
+    <button onclick="generatePFP()" id="pfpGenerateBtn" class="w-full py-4 font-black uppercase tracking-widest rounded-xl bg-primary text-black hover:brightness-90 transition text-sm">
+      ✦ Generate PFP
+    </button>
+
+    <p id="pfpError" class="hidden text-red-500 text-sm mt-3 text-center"></p>
+
+    <div id="pfpResult" class="hidden mt-6">
+      <label class="text-xs font-bold tracking-widest uppercase block mb-3 text-text-soft">Your PFP</label>
+      <img id="pfpOutput" class="w-full rounded-xl shadow-md" />
+      <button onclick="downloadPFP()" class="mt-3 w-full py-3 font-bold uppercase tracking-widest rounded-xl border border-primary text-primary bg-transparent hover:bg-cream transition text-sm">
+        ⬇ Download
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
   <!-- Preloader -->
   <div id="preloader" class="fixed inset-0 bg-gradient-to-b from-warm-dark via-black to-warm-dark z-[99999] flex items-center justify-center animated-preloader" style="pointer-events: all;">
     <div class="text-center">
@@ -109,7 +166,7 @@
       <a href="#about" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">About</a>
       <a href="#narrative" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">Narrative</a>
       <a href="#community" class="block px-4 py-3 text-text-dark hover:bg-cream rounded-lg transition-all font-medium text-sm">Community</a>
-      <a href="http://localhost:3000" target="_blank" class="w-full block mt-4 px-4 py-3 bg-gradient-to-r from-golden to-primary border border-primary rounded-lg hover:shadow-lg transition-all font-bold text-text-dark text-sm text-center">✨ PFP Generator</a>
+      <button onclick="document.getElementById('pfpModal').classList.remove('translate-x-full')" class="w-full block mt-4 px-4 py-3 bg-gradient-to-r from-golden to-primary border border-primary rounded-lg hover:shadow-lg transition-all font-bold text-text-dark text-sm text-center">✨ PFP Generator</button>
     </div>
   </nav>
 
@@ -452,7 +509,7 @@
       <h3 class="text-3xl sm:text-4xl font-bold mb-4 animate-slide-up text-text-dark tracking-wide">Bitsy the Wolfdog</h3>
       <p class="text-text-soft mb-8 text-sm sm:text-base">A cinematic sanctuary for nature lovers • Powered by community 💚</p>
       <div class="flex justify-center gap-8 mb-10 flex-wrap">
-        <a href="https://x.com/i/communities/2033619124145049854" target="_blank" class="px-6 py-3 bg-primary border border-primary text-black font-bold rounded-full hover:shadow-lg hover:brightness-90 transition-all">𝕏 X</a>
+        <a href="https://x.com/i/communities/2036984724229611708" target="_blank" class="px-6 py-3 bg-primary border border-primary text-black font-bold rounded-full hover:shadow-lg hover:brightness-90 transition-all">𝕏 X</a>
         <a href="https://pump.fun/coin/AKZrcatnqdw4D7nw8xrQnhVhqysN1bGUFBddrjifpump" target="_blank" class="px-6 py-3 bg-primary border border-primary text-black font-bold rounded-full hover:shadow-lg hover:brightness-90 transition-all">💰 Buy</a>
         <a href="#" onclick="alert('PFP Generator: Run it locally! See setup instructions.'); return false;" class="px-6 py-3 bg-gradient-to-r from-golden to-primary border border-golden text-black font-bold rounded-full hover:shadow-lg hover:shadow-golden/50 transition-all">✨ PFP Generator</a>
       </div>
@@ -488,48 +545,6 @@
       });
     }
     
-    // PFP Generator Guide
-    function showPFPGuide() {
-      const guide = `🐺 BITSY PFP GENERATOR SETUP GUIDE
-
-✨ Step 1: Install Node.js
-- Download from: https://nodejs.org/
-- Choose LTS version
-- Install with default settings
-- Restart your terminal/IDE
-
-🔧 Step 2: Install Dependencies
-Open PowerShell/Terminal and run:
-  cd c:\\Users\\USER\\BitsyPFP
-  npm install
-
-🚀 Step 3: Run Locally
-  npm run dev
-
-Then open: http://localhost:3000
-
-📦 Step 4: Deploy to GitHub
-
-A) Create a GitHub repository
-B) Initialize git in BitsyPFP folder:
-  git init
-  git add .
-  git commit -m "Initial commit: Bitsy PFP Generator"
-  git remote add origin https://github.com/YOUR_USERNAME/BitsyPFP
-  git branch -M main
-  git push -u origin main
-
-🌍 Step 5: Deploy via Vercel
-A) Go to https://vercel.com
-B) Click "New Project"
-C) Select your GitHub repository
-D) Set Environment Variables:
-   OPENAI_API_KEY = (your API key)
-E) Click Deploy!
-
-Your PFP Generator will be live on a Vercel URL! 🎉`;
-      alert(guide);
-    }
   </script>
 </body>
 </html>
