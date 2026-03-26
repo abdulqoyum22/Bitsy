@@ -50,20 +50,6 @@ if (copyBtn) {
     });
 }
 
-// Smooth scroll animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
 
 // Observe elements with animation classes
 document.querySelectorAll('.opacity-0').forEach(el => {
