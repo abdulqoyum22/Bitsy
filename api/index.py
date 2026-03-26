@@ -211,7 +211,7 @@ A viral-quality, emotional, cinematic profile picture that feels like a movie st
             "cached": False
         })
 
-except Exception as e:
+    except Exception as e:
         print("ERROR:", e)
         return jsonify({"error": str(e)}), 500
 
