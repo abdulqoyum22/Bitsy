@@ -211,9 +211,10 @@ A viral-quality, emotional, cinematic profile picture that feels like a movie st
             "cached": False
         })
 
-    except Exception as e:
-    print("ERROR:", e)
-    return jsonify({"error": str(e)}), 500
+except Exception as e:
+        print("ERROR:", e)
+        return jsonify({"error": str(e)}), 500
+
     
 @app.route("/stats")
 def stats():
@@ -227,5 +228,3 @@ def stats():
 def health():
     return jsonify({"status": "ok"})
 
-def handler(request):
-    return app(request.environ, lambda status, headers: None)
