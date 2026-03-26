@@ -4,63 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitsy the Wolfdog</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
     <script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          'primary': '#D4A574',
-          'golden': '#E8C291',
-          'warm-dark': '#2C1F0A',
-          'earth-brown': '#8B6F47',
-          'sage': '#5A6B5B',
-          'cream': '#FFFBF0',
-          'bg-light': '#FFFBF0',
-          'text-dark': '#1F1F1F',
-          'text-soft': '#5A5A5A',
-        },
-        fontFamily: {
-          'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
-        },
-        letterSpacing: {
-          'tighter': '-0.05em',
-          'tight': '-0.025em',
-          'normal': '0em',
-          'wide': '0.025em',
-          'wider': '0.05em',
-          'widest': '0.1em',
-        },
-        animation: {
-          'fade-in': 'fadeIn 0.8s ease-out',
-          'slide-up': 'slideUp 0.8s ease-out',
-          'shine': 'shine 2s infinite',
-          'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
-        },
-        keyframes: {
-          fadeIn: {
-            '0%': { opacity: '0' },
-            '100%': { opacity: '1' },
-          },
-          slideUp: {
-            '0%': { opacity: '0', transform: 'translateY(50px)' },
-            '100%': { opacity: '1', transform: 'translateY(0)' },
-          },
-          shine: {
-            '0%': { left: '-100%' },
-            '100%': { right: '-100%' },
-          },
-          pulseGlow: {
-            '0%, 100%': { boxShadow: '0 0 10px rgba(212, 165, 116, 0.4)' },
-            '50%': { boxShadow: '0 0 30px rgba(212, 165, 116, 0.8)' },
-          },
-        },
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#D4A574',
+              'golden': '#E8C291',
+              'warm-dark': '#2C1F0A',
+              'earth-brown': '#8B6F47',
+              'sage': '#5A6B5B',
+              'cream': '#FFFBF0',
+              'bg-light': '#FFFBF0',
+              'text-dark': '#1F1F1F',
+              'text-soft': '#5A5A5A',
+            },
+            fontFamily: {
+              'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+            },
+            letterSpacing: {
+              'tighter': '-0.05em',
+              'tight': '-0.025em',
+              'normal': '0em',
+              'wide': '0.025em',
+              'wider': '0.05em',
+              'widest': '0.1em',
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.8s ease-out',
+              'slide-up': 'slideUp 0.8s ease-out',
+              'shine': 'shine 2s infinite',
+              'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { opacity: '0', transform: 'translateY(50px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              shine: {
+                '0%': { left: '-100%' },
+                '100%': { right: '-100%' },
+              },
+              pulseGlow: {
+                '0%, 100%': { boxShadow: '0 0 10px rgba(212, 165, 116, 0.4)' },
+                '50%': { boxShadow: '0 0 30px rgba(212, 165, 116, 0.8)' },
+              },
+            },
+          }
+        }
       }
-    }
-  }
-</script>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="style.css">
-
+    </script>
 </head>
 <body class="bg-cream min-h-screen font-sans text-text-dark">
     
