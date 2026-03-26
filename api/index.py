@@ -8,13 +8,9 @@ from openai import OpenAI
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
-api_key = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_KEY")
-if not api_key:
-    raise ValueError("OPENAI_API_KEY or OPENAI_KEY environment variable not set")
-
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
 
 # ===============================
 # SETTINGS
@@ -28,6 +24,7 @@ COOLDOWN_SECONDS = 2
 RATE_LIMIT = {}
 COOLDOWN = {}
 CACHE = {}
+TOTAL_GENERATED = 0
 TOTAL_GENERATED = 0
 
 STYLE_PROMPTS = {
